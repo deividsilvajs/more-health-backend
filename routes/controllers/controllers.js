@@ -1,9 +1,6 @@
 const User = require('../schemas/User');
 const validator = require('../schemas/Validator');
-const { encryptionGenerator, passwordChecker } = require('./functions/accountValidation');
-const { imc, water, bulkingCarbo, bulkingProt, bulkingFat, 
-    cuttingCarbo, cuttingProt, cuttingFat 
-} = require('./functions/user');
+const { encryptionGenerator, passwordChecker } = require('./accountValidation');
 
 const controllers = {
 
@@ -62,14 +59,6 @@ const controllers = {
         User.findById(id).select('name weight height')
             .then(doc => {
                 let user = ({...doc})._doc;
-                user.imc = imc(user);
-                user.water = water(user);
-                user.bulkingCarbo = bulkingCarbo(user);
-                user.bulkingProt = bulkingProt(user);
-                user.bulkingFat = bulkingFat(user);
-                user.cuttingCarbo = cuttingCarbo(user);
-                user.cuttingProt = cuttingProt(user);
-                user.cuttingFat = cuttingFat(user);
                 res.send(user);          
             })
             .catch(err => res.send(err));
