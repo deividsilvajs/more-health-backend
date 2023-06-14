@@ -1,6 +1,7 @@
 import express from 'express';
-const { signUp, login, getUser, updateWeight } = 
-require('./controllers/controllers'); // Preciso atualizar o arquivo para ts
+import controllers from './controllers/controllers';
+
+const { signUp, login, getUser, updateWeight } = controllers;
 
 const router = express.Router();
 

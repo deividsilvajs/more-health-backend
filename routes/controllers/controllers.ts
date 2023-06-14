@@ -1,10 +1,23 @@
+import { Request, Response } from 'express';
+
+// Arquivos que preciso atualizar
 const User = require('../schemas/User');
 const validator = require('../schemas/Validator');
 const { encryptionGenerator, passwordChecker } = require('./accountValidation');
 
+interface Doc {
+    id: string;
+    name: string;
+    email: string;
+    weight: number;
+    height: number;
+    password: string;
+    _doc?: Object
+}
+
 const controllers = {
 
-    signUp(req, res) {
+    signUp(req: Request, res: Response) {
         let user = req.body;
         const { weight, height } = user;
         if (weight.includes(',')) {
@@ -22,25 +35,25 @@ const controllers = {
             res.status(400).send(error.message);
         } else {
             User.findOne({ email: user.email })
-                .then(doc => {
+                .then((doc: Doc) => {
                     if (doc) {
                         res.status(409).send('Email já cadastrado!');
                     } else {
                         user.password = encryptionGenerator(user.password);
                         user = new User(user);
                         user.save()
-                            .then(doc => res.send(doc.id))
-                            .catch(err => res.send(err));
+                            .then((doc: Doc) => res.send(doc.id))
+                            .catch((err: Object) => res.send(err));
                     };
                 })
-                .catch(err => res.send(err));
+                .catch((err: Object) => res.send(err));
         };
     },
 
-    login(req, res) {
+    login(req: Request, res: Response) {
         const user = req.body;
         User.findOne({ email: user.email })
-            .then(doc => {
+            .then((doc: Doc) => {
                 if (doc) {
                     const password = passwordChecker(user.password, doc.password);
                     if (password) {
@@ -51,20 +64,20 @@ const controllers = {
                 } else {
                     res.status(404).send('Email incorreto ou não cadastrado');
                 };
-            }).catch(err => res.send(err));
+            }).catch((err: Object) => res.send(err));
     },
 
-    getUser(req, res) {
+    getUser(req: Request, res: Response) {
         const { id } = req.params;
         User.findById(id).select('name weight height')
-            .then(doc => {
+            .then((doc: Doc) => {
                 let user = ({...doc})._doc;
                 res.send(user);          
             })
-            .catch(err => res.send(err));
+            .catch((err: Object) => res.send(err));
     },
 
-    updateWeight(req, res) {
+    updateWeight(req: Request, res: Response) {
         let { id, newWeight } = req.body;
         if (newWeight.includes(',')) {
             newWeight = parseFloat(newWeight.replace(',', '.'));
@@ -74,9 +87,9 @@ const controllers = {
         User.findByIdAndUpdate(id, { weight: newWeight })
             .then(() => {
                 res.status(200).send();
-            }).catch(err => res.send(err));
+            }).catch((err: Object) => res.send(err));
     }
 
 };
 
-module.exports = controllers;
+export default controllers;
