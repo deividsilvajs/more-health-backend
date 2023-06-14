@@ -1,12 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-const routes = require('./routes/routes');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import 'dotenv/config';
+const routes = require('./routes/routes'); // Preciso atualizar o arquivo para ts
 
 const app = express();
 
-const DB_CONNECTION = process.env.DB_CONNECTION;
+const DB_CONNECTION = process.env.DB_CONNECTION || '';
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 
