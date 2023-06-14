@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import 'dotenv/config';
-const routes = require('./routes/routes'); // Preciso atualizar o arquivo para ts
+import routes from './routes/routes';
 
 const app = express();
 

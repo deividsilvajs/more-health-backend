@@ -1,5 +1,6 @@
-const express = require('express');
-const { signUp, login, getUser, updateWeight } = require('./controllers/controllers');
+import express from 'express';
+const { signUp, login, getUser, updateWeight } = 
+require('./controllers/controllers'); // Preciso atualizar o arquivo para ts
 
 const router = express.Router();
 
@@ -10,4 +11,4 @@ router.put('/updateWeight', express.json(), updateWeight);
 
 router.get('/getUser/:id', getUser);
 
-module.exports = router;
+export default router;
