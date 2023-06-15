@@ -1,8 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import User from '../controllers/IUser';
 
-function userValidator(user) {
+function userValidator(user: Object) {
 
-    const schema = Joi.object({
+    const schema = Joi.object<User>({
         name: Joi.string().min(2).required(),
         email: Joi.string().required(),
         password: Joi.string().min(6).required(),
@@ -14,4 +15,4 @@ function userValidator(user) {
 
 };
 
-module.exports = userValidator;
+export default userValidator;

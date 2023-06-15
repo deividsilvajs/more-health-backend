@@ -2,9 +2,7 @@ import { Request, Response } from 'express';
 import { encryptionGenerator, passwordChecker } from './accountValidation';
 import Model from '../schemas/Model';
 import User from './IUser';
-
-// Arquivos que preciso atualizar
-const validator = require('../schemas/Validator');
+import validator from '../schemas/Validator';
 
 const controllers = {
 
