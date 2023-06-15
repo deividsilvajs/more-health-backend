@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import { connect } from 'mongoose';
 import cors from 'cors';
 import 'dotenv/config';
 import routes from './routes/routes';
@@ -12,7 +12,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 app.use('/', routes);
 
-mongoose.connect(DB_CONNECTION)
+connect(DB_CONNECTION)
     .then(() => console.log('Database loaded'))
     .catch(err => console.log(err));
 //
