@@ -1,16 +1,13 @@
 import express from 'express';
 import { connect } from 'mongoose';
-import cors from 'cors';
 import 'dotenv/config';
-import routes from './routes/routes';
+import appConfig from './appConfig';
 
 const app = express();
 
 const DB_CONNECTION = process.env.DB_CONNECTION || '';
 
-app.use(cors({ origin: 'http://localhost:3000' }));
-
-app.use('/', routes);
+appConfig(app);
 
 connect(DB_CONNECTION)
     .then(() => console.log('Database loaded'))
