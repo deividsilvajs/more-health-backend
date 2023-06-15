@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { encryptionGenerator, passwordChecker } from './accountValidation';
 
 // Arquivos que preciso atualizar
-const User = require('../schemas/User');
+const Model = require('../schemas/Model');
 const validator = require('../schemas/Validator');
 
-interface Doc {
+interface User {
     id: string;
     name: string;
     email: string;
@@ -34,15 +34,15 @@ const controllers = {
         if (error) {
             res.status(400).send(error.message);
         } else {
-            User.findOne({ email: user.email })
-                .then((doc: Doc) => {
+            Model.findOne({ email: user.email })
+                .then((doc: User) => {
                     if (doc) {
                         res.status(409).send('Email já cadastrado!');
                     } else {
                         user.password = encryptionGenerator(user.password);
-                        user = new User(user);
+                        user = new Model(user);
                         user.save()
-                            .then((doc: Doc) => res.send(doc.id))
+                            .then((doc: User) => res.send(doc.id))
                             .catch((err: Object) => res.send(err));
                     };
                 })
@@ -52,8 +52,8 @@ const controllers = {
 
     login(req: Request, res: Response) {
         const user = req.body;
-        User.findOne({ email: user.email })
-            .then((doc: Doc) => {
+        Model.findOne({ email: user.email })
+            .then((doc: User) => {
                 if (doc) {
                     const password = passwordChecker(user.password, doc.password);
                     if (password) {
@@ -69,8 +69,8 @@ const controllers = {
 
     getUser(req: Request, res: Response) {
         const { id } = req.params;
-        User.findById(id).select('name weight height')
-            .then((doc: Doc) => {
+        Model.findById(id).select('name weight height')
+            .then((doc: User) => {
                 let user = ({...doc})._doc;
                 res.send(user);          
             })
@@ -84,7 +84,7 @@ const controllers = {
         } else {
             newWeight = parseFloat(newWeight);
         };
-        User.findByIdAndUpdate(id, { weight: newWeight })
+        Model.findByIdAndUpdate(id, { weight: newWeight })
             .then(() => {
                 res.status(200).send();
             }).catch((err: Object) => res.send(err));
