@@ -1,19 +1,10 @@
 import { Request, Response } from 'express';
 import { encryptionGenerator, passwordChecker } from './accountValidation';
+import Model from '../schemas/Model';
+import User from './IUser';
 
 // Arquivos que preciso atualizar
-const Model = require('../schemas/Model');
 const validator = require('../schemas/Validator');
-
-interface User {
-    id: string;
-    name: string;
-    email: string;
-    weight: number;
-    height: number;
-    password: string;
-    _doc?: Object
-}
 
 const controllers = {
 
@@ -35,7 +26,7 @@ const controllers = {
             res.status(400).send(error.message);
         } else {
             Model.findOne({ email: user.email })
-                .then((doc: User) => {
+                .then((doc: User | null) => {
                     if (doc) {
                         res.status(409).send('Email já cadastrado!');
                     } else {
@@ -53,7 +44,7 @@ const controllers = {
     login(req: Request, res: Response) {
         const user = req.body;
         Model.findOne({ email: user.email })
-            .then((doc: User) => {
+            .then((doc: User | null) => {
                 if (doc) {
                     const password = passwordChecker(user.password, doc.password);
                     if (password) {
@@ -70,7 +61,7 @@ const controllers = {
     getUser(req: Request, res: Response) {
         const { id } = req.params;
         Model.findById(id).select('name weight height')
-            .then((doc: User) => {
+            .then((doc: User | null) => {
                 let user = ({...doc})._doc;
                 res.send(user);          
             })
@@ -90,6 +81,6 @@ const controllers = {
             }).catch((err: Object) => res.send(err));
     }
 
-};
+}
 
 export default controllers;
