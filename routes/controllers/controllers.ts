@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
+import { encryptionGenerator, passwordChecker } from './accountValidation';
 
 // Arquivos que preciso atualizar
 const User = require('../schemas/User');
 const validator = require('../schemas/Validator');
-const { encryptionGenerator, passwordChecker } = require('./accountValidation');
 
 interface Doc {
     id: string;
