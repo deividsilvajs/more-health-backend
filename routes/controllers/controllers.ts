@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { encryptionGenerator, passwordChecker } from './accountValidation';
 import Model from '../schemas/Model';
-import User from './IUser';
+import { User } from './IUser';
 import validator from '../schemas/Validator';
 
 const controllers = {
