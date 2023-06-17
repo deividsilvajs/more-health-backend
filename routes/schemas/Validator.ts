@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import User from '../controllers/IUser';
+import { User } from '../controllers/IUser';
 
 function userValidator(user: Object) {
 
