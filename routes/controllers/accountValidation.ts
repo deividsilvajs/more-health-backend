@@ -9,3 +9,11 @@ export function encryptionGenerator(password: string) {
 export function passwordChecker(password: string, hash: string) {
     return bcrypt.compareSync(password, hash);
 }
+
+export function weightFormatChecker(weight: string) {
+    if (weight.includes(',')) {
+        return parseFloat(weight.replace(',', '.'));
+    } else {
+        return parseFloat(weight);
+    }
+}

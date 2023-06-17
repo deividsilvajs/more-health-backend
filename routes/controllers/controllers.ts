@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { encryptionGenerator, passwordChecker } from './accountValidation';
+import { encryptionGenerator, passwordChecker, weightFormatChecker } from './accountValidation';
 import Model from '../schemas/Model';
 import { User } from './IUser';
 import validator from '../schemas/Validator';
@@ -9,11 +9,7 @@ const controllers = {
     signUp(req: Request, res: Response) {
         let user = req.body;
         const { weight, height } = user;
-        if (weight.includes(',')) {
-            user.weight = parseFloat(weight.replace(',', '.'));
-        } else {
-            user.weight = parseFloat(weight);
-        };
+        user.weight = weightFormatChecker(weight);
         if (height.includes(',') || height.includes('.')) {
             res.status(409).send('A altura precisa ser em centímetros (Ex: 170cm)');
         } else {
