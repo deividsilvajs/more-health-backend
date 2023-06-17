@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import { Response } from 'express';
 
 export function encryptionGenerator(password: string) {
     const salt = bcrypt.genSaltSync(10);
@@ -15,5 +16,13 @@ export function weightFormatChecker(weight: string) {
         return parseFloat(weight.replace(',', '.'));
     } else {
         return parseFloat(weight);
+    }
+}
+
+export function heightFormatChecker(res: Response, height: string) {
+    if (height.includes(',') || height.includes('.')) {
+        return res.status(409).send('A altura precisa ser em centímetros (Ex: 170cm)');
+    } else {
+        return parseInt(height);
     }
 }

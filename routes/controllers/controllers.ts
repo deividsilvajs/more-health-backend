@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { encryptionGenerator, passwordChecker, weightFormatChecker } from './accountValidation';
+import { encryptionGenerator, passwordChecker, 
+    weightFormatChecker, heightFormatChecker } from './accountValidation';
 import Model from '../schemas/Model';
 import { User } from './IUser';
 import validator from '../schemas/Validator';
@@ -10,11 +11,7 @@ const controllers = {
         let user = req.body;
         const { weight, height } = user;
         user.weight = weightFormatChecker(weight);
-        if (height.includes(',') || height.includes('.')) {
-            res.status(409).send('A altura precisa ser em centímetros (Ex: 170cm)');
-        } else {
-            user.height = parseInt(height);
-        };
+        user.height = heightFormatChecker(res, height);
         const { error } = validator(user);
         if (error) {
             res.status(400).send(error.message);
