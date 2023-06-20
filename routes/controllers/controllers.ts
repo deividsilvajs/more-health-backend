@@ -24,7 +24,7 @@ const controllers = {
                         user.password = encryptionGenerator(user.password);
                         user = new Model(user);
                         user.save()
-                            .then((doc: User) => res.send(doc.id))
+                            .then((doc: User) => res.send(doc))
                             .catch((err: Object) => res.send(err));
                     };
                 })
@@ -39,7 +39,7 @@ const controllers = {
                 if (doc) {
                     const password = passwordChecker(user.password, doc.password);
                     if (password) {
-                        res.send(doc.id);
+                        res.send(doc);
                     } else {
                         res.status(404).send('Senha incorreta');
                     }
