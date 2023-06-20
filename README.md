@@ -47,4 +47,4 @@ Agora, a variável de ambiente está configurada e o programa está pronto para 
 
 1. Abra o terminal e navegue até o diretório onde o repositório foi instalado e configurado.
 
-2. Execute os comandos "npx tsc" e "npm start" no terminal. Isso iniciará o servidor e garantirá que esteja em execução corretamente.
+2. Execute o comando "npm start" no terminal. Isso iniciará o servidor e garantirá que esteja em execução corretamente.
