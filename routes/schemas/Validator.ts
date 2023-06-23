@@ -1,5 +1,5 @@
-import Joi from 'joi';
-import { User } from '../controllers/IUser';
+import Joi from 'joi'
+import { User } from '../controllers/IUser'
 
 function userValidator(user: Object) {
 
@@ -9,10 +9,10 @@ function userValidator(user: Object) {
         password: Joi.string().min(6).required(),
         weight: Joi.number().min(10).required(),
         height: Joi.number().min(100).required(),
-    });
+    })
 
-    return schema.validate(user);
+    return schema.validate(user)
 
-};
+}
 
-export default userValidator;
+export default userValidator
