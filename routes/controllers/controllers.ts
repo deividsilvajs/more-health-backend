@@ -49,7 +49,7 @@ const controllers = {
             }).catch((err: Object) => res.send(err));
     },
 
-    getUser(req: Request, res: Response) {
+    /* getUser(req: Request, res: Response) {
         const { id } = req.params;
         Model.findById(id).select('name weight height')
             .then((doc: User | null) => {
@@ -57,7 +57,7 @@ const controllers = {
                 res.send(user);          
             })
             .catch((err: Object) => res.send(err));
-    },
+    }, */
 
     updateWeight(req: Request, res: Response) {
         let { id, newWeight } = req.body;
