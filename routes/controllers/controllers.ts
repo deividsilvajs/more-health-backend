@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
-import { encryptionGenerator, passwordChecker, 
-    weightFormatChecker, heightFormatChecker } from './accountValidation'
+import {
+    encryptionGenerator, passwordChecker,
+    weightFormatChecker, heightFormatChecker
+} from './accountValidation'
 import Model from '../schemas/Model'
 import { User } from './IUser'
 import validator from '../schemas/Validator'
@@ -24,7 +26,11 @@ const controllers = {
                         user.password = encryptionGenerator(user.password)
                         user = new Model(user)
                         user.save()
-                            .then((doc: User) => res.send(doc))
+                            .then((doc: User) => {
+                                // Escolhendo apenas informações úteis ao frontend
+                                const { name, weight, height } = doc
+                                res.send({ name, weight, height })
+                            })
                             .catch((err: Object) => res.send(err))
                     }
                 })
@@ -39,26 +45,15 @@ const controllers = {
                 if (doc) {
                     const password = passwordChecker(user.password, doc.password)
                     if (password) {
-                        res.send(doc)
+                        // Escolhendo apenas informações úteis ao frontend
+                        const { name, weight, height } = doc
+                        res.send({ name, weight, height })
                     } else {
                         res.status(404).send('Senha incorreta')
                     }
                 } else {
                     res.status(404).send('Email incorreto ou não cadastrado')
                 }
-            }).catch((err: Object) => res.send(err))
-    },
-
-    updateWeight(req: Request, res: Response) {
-        let { id, newWeight } = req.body
-        if (newWeight.includes(',')) {
-            newWeight = parseFloat(newWeight.replace(',', '.'))
-        } else {
-            newWeight = parseFloat(newWeight)
-        }
-        Model.findByIdAndUpdate(id, { weight: newWeight })
-            .then(() => {
-                res.status(200).send()
             }).catch((err: Object) => res.send(err))
     }
 
