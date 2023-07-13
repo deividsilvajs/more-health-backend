@@ -28,8 +28,8 @@ const controllers = {
                         user.save()
                             .then((doc: User) => {
                                 // Escolhendo apenas informações úteis ao frontend
-                                const { email, name, weight, height } = doc
-                                res.send({ email, name, weight, height })
+                                const { id, name, weight, height } = doc
+                                res.send({ id, name, weight, height })
                             })
                             .catch((err: Object) => res.send(err))
                     }
@@ -46,8 +46,8 @@ const controllers = {
                     const password = passwordChecker(user.password, doc.password)
                     if (password) {
                         // Escolhendo apenas informações úteis ao frontend
-                        const { email, name, weight, height } = doc
-                        res.send({ email, name, weight, height })
+                        const { id, name, weight, height } = doc
+                        res.send({ id, name, weight, height })
                     } else {
                         res.status(404).send('Senha incorreta')
                     }
@@ -59,7 +59,7 @@ const controllers = {
 
     update(req: Request, res: Response) {
         const user = req.body
-        Model.findOneAndUpdate({ email: user.email }, {
+        Model.findByIdAndUpdate(user.id, {
             name: user.name,
             weight: user.weight,
             height: user.height
