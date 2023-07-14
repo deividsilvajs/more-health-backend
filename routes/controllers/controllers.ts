@@ -57,13 +57,34 @@ const controllers = {
             }).catch((err: Object) => res.send(err))
     },
 
-    update(req: Request, res: Response) {
+    updateAccount(req: Request, res: Response) {
         const user = req.body
         Model.findByIdAndUpdate(user.id, {
             name: user.name,
             weight: user.weight,
             height: user.height
         }).then(() => res.status(200).send())
+    },
+
+    deleteAccount(req: Request, res: Response) {
+
+        const user = req.body
+
+        Model.findById(user.id)
+            .then((doc: User | null) => {
+                if (doc) {
+                    const password = passwordChecker(user.password, doc.password)
+                    if (password) {
+                        Model.findByIdAndDelete(user.id)
+                            .then(() => res.status(200).send())
+                    } else {
+                        res.status(401).send()
+                    }
+                }
+            })
+
+        
+
     }
 
 }
